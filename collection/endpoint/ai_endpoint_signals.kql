@@ -1,0 +1,58 @@
+let ai_processes = dynamic([
+    "ollama","ollama.exe","llamafile","llama-server","llama.cpp",
+    "lmstudio","lm_studio.exe","text-generation-webui","koboldcpp",
+    "vllm","tritonserver"
+]);
+let ai_packages = dynamic([
+    "openai","anthropic","langchain","llama-index","llamaindex",
+    "transformers","chromadb","pinecone","weaviate","autogen",
+    "crewai","litellm","ollama","sentence-transformers"
+]);
+let mcp_terms = dynamic([
+    "mcp","model-context-protocol","mcp-server","@modelcontextprotocol"
+]);
+let install_paths = dynamic([
+    ".ollama","huggingface","lm_studio",".claude","localai",
+    ".cache/huggingface","models/gguf"
+]);
+let ai_ports = dynamic(["11434","8080","5000","5001","8000","1234","8888","11435"]);
+let ProcessEvents = DeviceProcessEvents
+| where FileName has_any (ai_processes)
+    or ProcessCommandLine has_any (ai_packages)
+    or ProcessCommandLine has_any (mcp_terms)
+    or FolderPath has_any (install_paths)
+    or (ProcessCommandLine has "pip install" and ProcessCommandLine has_any (ai_packages))
+    or (ProcessCommandLine has "npm install" and ProcessCommandLine has_any (mcp_terms))
+    or ProcessCommandLine has "uvx" or ProcessCommandLine has "npx"
+| extend
+    SignalType = case(
+        ProcessCommandLine has "pip install" or ProcessCommandLine has "npm install" or ProcessCommandLine has "uvx" or ProcessCommandLine has "npx", "PackageInstall",
+        ProcessCommandLine has_any (mcp_terms), "MCPOperation",
+        FolderPath has_any (install_paths),     "InstallLocationMatch",
+        FileName has_any (ai_processes),        "KnownAIProcess",
+        "AICommandLine"
+    ),
+    EventTable = "DeviceProcessEvents"
+| project TimeGenerated, DeviceName, AccountName, FileName,
+          ProcessCommandLine, FolderPath, SignalType, EventTable;
+let NetworkEvents = DeviceNetworkEvents
+| where tostring(LocalPort) in (ai_ports) or tostring(RemotePort) in (ai_ports)
+| extend
+    SignalType = "LocalInferencePort",
+    EventTable = "DeviceNetworkEvents"
+| project TimeGenerated, DeviceName,
+          AccountName     = InitiatingProcessAccountName,
+          FileName        = InitiatingProcessFileName,
+          ProcessCommandLine = InitiatingProcessCommandLine,
+          FolderPath      = InitiatingProcessFolderPath,
+          SignalType, EventTable;
+union ProcessEvents, NetworkEvents
+| summarize
+    EventCount  = count(),
+    Devices     = make_set(DeviceName),
+    Accounts    = make_set(AccountName),
+    Commands    = make_set(ProcessCommandLine),
+    FirstSeen   = min(TimeGenerated),
+    LastSeen    = max(TimeGenerated)
+    by SignalType, FileName, EventTable
+| order by EventCount desc
