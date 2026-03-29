@@ -1,0 +1,213 @@
+{
+  "_metadata": {
+    "description": "Argus MCP Detection Signatures — config paths, process patterns, network indicators, and registry platforms for MCP server detection",
+    "last_updated": "2026-03-28",
+    "version": "1.0.0"
+  },
+  "mcp_config_paths": {
+    "claude_desktop": {
+      "macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+      "windows": "%APPDATA%\\Claude\\claude_desktop_config.json",
+      "format": "mcpServers JSON object",
+      "file_extension_bundles": ".mcpb (formerly .dxt)"
+    },
+    "claude_code": {
+      "global": "~/.claude.json",
+      "project": ".mcp.json",
+      "settings": "~/.claude/settings.json",
+      "cli_command": "claude mcp add <name>"
+    },
+    "cursor": {
+      "global": "~/.cursor/mcp.json",
+      "project": ".cursor/mcp.json",
+      "settings_ui": "Settings > Features > MCP",
+      "transports": ["stdio", "sse", "streamable-http"]
+    },
+    "windsurf": {
+      "macos_linux": "~/.codeium/windsurf/mcp_config.json",
+      "windows": "%USERPROFILE%\\.codeium\\windsurf\\mcp_config.json"
+    },
+    "vscode_copilot": {
+      "workspace": ".vscode/mcp.json",
+      "user_settings": "settings.json (github.copilot.chat.mcp.servers)",
+      "notes": "MCP tools only work in Copilot Agent mode"
+    },
+    "chatgpt_desktop": {
+      "notes": "MCP configured via developer mode. Plugins can package MCP server configurations."
+    }
+  },
+  "mcp_process_patterns": {
+    "npm_based": [
+      "npx @modelcontextprotocol/",
+      "npx -y @modelcontextprotocol/",
+      "npx mcp-server-",
+      "npx @smithery/",
+      "node mcp-server",
+      "node .*/mcp"
+    ],
+    "python_based": [
+      "uvx mcp-server-",
+      "python -m mcp_server",
+      "uvicorn.*mcp",
+      "uv run mcp-server-",
+      "pip install mcp",
+      "pip install @modelcontextprotocol"
+    ],
+    "docker_based": [
+      "docker run.*mcp",
+      "docker compose.*mcp"
+    ],
+    "direct_executables": [
+      "mcp-server-*",
+      "mcp_server_*",
+      "smithery"
+    ]
+  },
+  "mcp_network_indicators": {
+    "local_transports": {
+      "stdio": "No network traffic — communicates via stdin/stdout",
+      "notes": "stdio servers are invisible to network monitoring; detect via process creation events"
+    },
+    "remote_transports": {
+      "sse": {
+        "protocol": "HTTP with Server-Sent Events",
+        "content_type": "text/event-stream",
+        "notes": "Long-lived HTTP connections"
+      },
+      "streamable_http": {
+        "protocol": "HTTP POST/GET with streaming",
+        "notes": "Newer transport, replacing SSE in MCP v1.27+"
+      }
+    },
+    "common_hosting_patterns": [
+      "*.azurewebsites.net",
+      "*.ngrok.io",
+      "*.ngrok-free.app",
+      "*.run.app",
+      "*.lambda-url.*.on.aws",
+      "*.execute-api.*.amazonaws.com",
+      "*.railway.app",
+      "*.fly.dev",
+      "*.render.com",
+      "*.vercel.app",
+      "*.workers.dev",
+      "*.deno.dev"
+    ]
+  },
+  "mcp_registry_platforms": [
+    {
+      "name": "Official MCP Registry",
+      "domain": "registry.modelcontextprotocol.io",
+      "type": "registry"
+    },
+    {
+      "name": "Smithery",
+      "domain": "smithery.ai",
+      "size": "7,300+ tools / 6,000+ servers",
+      "type": "registry + hosting"
+    },
+    {
+      "name": "Glama",
+      "domain": "glama.ai",
+      "size": "17,200+ servers",
+      "type": "registry + hosting + API gateway"
+    },
+    {
+      "name": "Composio",
+      "domain": "mcp.composio.dev",
+      "size": "1,000+ pre-built tools",
+      "type": "managed hosting"
+    },
+    {
+      "name": "MCP.run",
+      "domain": "mcp.run",
+      "type": "hosting"
+    },
+    {
+      "name": "MCPHub",
+      "domain": "mcphub.io",
+      "type": "directory"
+    },
+    {
+      "name": "MCP.so",
+      "domain": "mcp.so",
+      "type": "directory"
+    }
+  ],
+  "popular_mcp_servers": [
+    {
+      "name": "Sequential Thinking",
+      "package": "@modelcontextprotocol/server-sequentialthinking",
+      "usage": "5,550+ uses on Smithery",
+      "category": "reasoning"
+    },
+    {
+      "name": "Filesystem",
+      "package": "@modelcontextprotocol/server-filesystem",
+      "category": "file_access"
+    },
+    {
+      "name": "GitHub",
+      "package": "@modelcontextprotocol/server-github",
+      "category": "code"
+    },
+    {
+      "name": "PostgreSQL",
+      "package": "@modelcontextprotocol/server-postgres",
+      "category": "database"
+    },
+    {
+      "name": "Puppeteer",
+      "package": "@modelcontextprotocol/server-puppeteer",
+      "category": "browser"
+    },
+    {
+      "name": "AWS S3",
+      "package": "mcp-server-s3",
+      "category": "cloud"
+    },
+    {
+      "name": "Airtable",
+      "package": "mcp-server-airtable",
+      "category": "database"
+    },
+    {
+      "name": "Docker",
+      "package": "mcp-server-docker",
+      "category": "infrastructure"
+    },
+    {
+      "name": "Google Calendar",
+      "package": "mcp-server-google-calendar",
+      "category": "productivity"
+    },
+    {
+      "name": "Kubernetes",
+      "package": "mcp-server-kubernetes",
+      "category": "infrastructure"
+    },
+    {
+      "name": "MongoDB",
+      "package": "mcp-server-mongodb",
+      "category": "database"
+    },
+    {
+      "name": "Slack",
+      "package": "mcp-server-slack",
+      "category": "communication"
+    },
+    {
+      "name": "Firecrawl",
+      "package": "@mendable/firecrawl-mcp",
+      "category": "web_scraping"
+    }
+  ],
+  "a2a_protocol_indicators": {
+    "name": "Agent2Agent (A2A)",
+    "vendor": "Google / Linux Foundation",
+    "version": "0.3",
+    "discovery_path": "/.well-known/agent-card.json",
+    "protocols": ["HTTP", "gRPC"],
+    "notes": "Look for /.well-known/agent-card.json requests in HTTP logs. Indicates agent-to-agent communication. Complementary to MCP."
+  }
+}
