@@ -1,7 +1,20 @@
+// === Argus AI Identity Detection — last updated 2026-03-28 ===
 let ai_apps = dynamic([
-    "GitHub Copilot","Microsoft Copilot","ChatGPT","Claude","Cursor",
-    "Codeium","Tabnine","Notion AI","Grammarly","Jasper","Copy.ai",
-    "OpenAI","Azure OpenAI","Perplexity","Midjourney","Runway"
+    // Coding Assistants
+    "GitHub Copilot","GitHub Copilot Chat","Microsoft Copilot","Microsoft 365 Copilot",
+    "Cursor","Codeium","Windsurf","Tabnine","Devin",
+    "Sourcegraph","Cody","Qodo","Codium","Augment Code",
+    "Gemini Code Assist","Google AI Studio",
+    "Amazon Q","Amazon Q Developer","AWS CodeWhisperer",
+    // AI Chatbots & Assistants
+    "ChatGPT","OpenAI","Azure OpenAI","Claude","Anthropic","Grok","xAI",
+    "Perplexity","Qwen","Alibaba Cloud","Tongyi Qianwen",
+    // App Builders
+    "Replit","Lovable",
+    // Productivity AI
+    "Notion AI","Notion","Grammarly","Jasper","Copy.ai","Midjourney","Runway",
+    // MCP & Automation Platforms
+    "Zapier","Composio","Smithery"
 ]);
 let ConsentGrants = AuditLogs
 | where OperationName in (

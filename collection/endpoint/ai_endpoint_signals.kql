@@ -1,21 +1,54 @@
+// === Argus AI Endpoint Detection — last updated 2026-03-28 ===
 let ai_processes = dynamic([
-    "ollama","ollama.exe","llamafile","llama-server","llama.cpp",
-    "lmstudio","lm_studio.exe","text-generation-webui","koboldcpp",
-    "vllm","tritonserver"
+    // Local Inference Engines
+    "ollama","ollama.exe","llamafile","llamafile.exe","llama-server","llama-cli","llama.cpp",
+    "lmstudio","lm_studio.exe","LM Studio.exe","LM Studio","llmster",
+    "text-generation-webui","koboldcpp","koboldcpp.exe",
+    "vllm","tritonserver","open-webui",
+    // Desktop AI Assistants
+    "ChatGPT.exe","ChatGPT","Claude.exe","Claude","DeepSeek.exe","DeepSeek",
+    "Perplexity.exe","Perplexity","Comet.exe","Comet","Codex.exe","Codex",
+    "Grammarly.exe","Microsoft.Copilot.exe","Replit.exe","Replit",
+    // AI Coding Assistants
+    "Cursor.exe","Cursor","cursorsandbox.exe","Windsurf.exe","Windsurf","windsurf",
+    "tabnine","TabNine.exe",
+    // CLI AI Tools
+    "claude","claude-code","aider","litellm","smithery"
 ]);
 let ai_packages = dynamic([
-    "openai","anthropic","langchain","llama-index","llamaindex",
-    "transformers","chromadb","pinecone","weaviate","autogen",
-    "crewai","litellm","ollama","sentence-transformers"
+    // Core LLM SDKs
+    "openai","anthropic","@anthropic-ai/claude-code","@openai/codex",
+    // Frameworks
+    "langchain","langchain-core","langchain-community","langsmith",
+    "llama-index","llamaindex",
+    // ML Libraries
+    "transformers","huggingface-hub","diffusers","accelerate","datasets","tokenizers",
+    // Vector DBs
+    "chromadb","pinecone","pinecone-client","weaviate-client","qdrant-client",
+    // Agent Frameworks
+    "autogen","pyautogen","autogen-agentchat","crewai","openai-agents",
+    // Inference & Routing
+    "litellm","ollama","groq","together","fireworks-ai","replicate","dashscope",
+    "google-generativeai","@google/generative-ai",
+    // Misc
+    "sentence-transformers","vllm","stability-sdk","modelscope","aider-chat",
+    "composio","composio-core",
+    // MCP SDKs
+    "@modelcontextprotocol/sdk","@smithery/cli","@glama/mcp-client"
 ]);
 let mcp_terms = dynamic([
-    "mcp","model-context-protocol","mcp-server","@modelcontextprotocol"
+    "mcp","model-context-protocol","mcp-server","@modelcontextprotocol",
+    "mcp-server-","mcpb","npx @modelcontextprotocol/","uvx mcp-server-",
+    "uv run mcp-server-","claude mcp add","claude mcp serve"
 ]);
 let install_paths = dynamic([
-    ".ollama","huggingface","lm_studio",".claude","localai",
-    ".cache/huggingface","models/gguf"
+    ".ollama",".cache/huggingface",".cache/lm-studio","huggingface","lm_studio",
+    ".claude",".cursor",".codeium",".continue","localai","models/gguf",
+    "Library/Application Support/Claude","AppData/Roaming/Claude",
+    "claude_desktop_config.json","mcp_config.json",".mcp.json",
+    ".aider.conf.yml"
 ]);
-let ai_ports = dynamic(["11434","8080","5000","5001","8000","1234","8888","11435"]);
+let ai_ports = dynamic(["11434","11435","8080","5000","5001","8000","1234","8888","7860","3000","4000","6333","6334"]);
 let ProcessEvents = DeviceProcessEvents
 | where FileName has_any (ai_processes)
     or ProcessCommandLine has_any (ai_packages)
