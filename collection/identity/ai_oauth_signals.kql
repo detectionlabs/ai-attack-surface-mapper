@@ -1,0 +1,34 @@
+let ai_apps = dynamic([
+    "GitHub Copilot","Microsoft Copilot","ChatGPT","Claude","Cursor",
+    "Codeium","Tabnine","Notion AI","Grammarly","Jasper","Copy.ai",
+    "OpenAI","Azure OpenAI","Perplexity","Midjourney","Runway"
+]);
+let ConsentGrants = AuditLogs
+| where OperationName in (
+    "Consent to application",
+    "Add app role assignment to service principal",
+    "Add delegated permission grant"
+  )
+| extend
+    AppName  = tostring(TargetResources[0].displayName),
+    UPN      = tostring(InitiatedBy.user.userPrincipalName)
+| where AppName has_any (ai_apps)
+| extend SignalType = "ConsentGrant", Source = "AzureAD_AuditLogs"
+| project TimeGenerated, UPN, AppName, SignalType, Source;
+let SSOSignIns = SigninLogs
+| where AppDisplayName has_any (ai_apps)
+| extend SignalType = "SSOSignIn", Source = "SigninLogs"
+| project TimeGenerated, UPN = UserPrincipalName, AppName = AppDisplayName, SignalType, Source;
+let OktaGrants = OktaSystemLog_CL
+| where eventType_s in ("app.oauth2.token.grant","user.authentication.sso")
+    and displayMessage_s has_any (ai_apps)
+| extend SignalType = "OktaOAuthGrant", Source = "Okta"
+| project TimeGenerated, UPN = actor_alternateId_s, AppName = displayMessage_s, SignalType, Source;
+union ConsentGrants, SSOSignIns, OktaGrants
+| summarize
+    GrantCount = count(),
+    Users      = make_set(UPN),
+    FirstSeen  = min(TimeGenerated),
+    LastSeen   = max(TimeGenerated)
+    by AppName, SignalType, Source
+| order by GrantCount desc

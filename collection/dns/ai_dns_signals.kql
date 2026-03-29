@@ -1,0 +1,37 @@
+let ai_domains = dynamic([
+    "openai.com","anthropic.com","cohere.ai","mistral.ai","huggingface.co",
+    "together.ai","groq.com","perplexity.ai","stability.ai","replicate.com",
+    "langchain.com","pinecone.io","weaviate.io","qdrant.io","chroma.db",
+    "ollama.ai","lmstudio.ai","cursor.sh","codeium.com","tabnine.com",
+    "anyscale.com","fireworks.ai","deepinfra.com"
+]);
+let mcp_patterns     = dynamic(["mcp.", "mcp-"]);
+let api_patterns     = dynamic(["api.", "ws.", "stream.", "auth.", "login.", "accounts."]);
+let model_infra      = dynamic(["models.", "weights.", "registry.", "artifacts.", "download."]);
+let cloud_mcp        = dynamic(["azurewebsites.net","ngrok.io","run.app","lambda-url","execute-api"]);
+DnsEvents
+| where Name endswith ".ai"
+    or Name endswith ".ml"
+    or Name has_any (mcp_patterns)
+    or Name has_any (model_infra)
+    or Name has_any (ai_domains)
+    or (Name has_any (api_patterns) and Name has_any (ai_domains))
+    or Name has_any (cloud_mcp)
+| extend SignalType = case(
+    Name endswith ".ai" or Name endswith ".ml",                        "AI_TLD",
+    Name has "mcp." or Name has "mcp-",                               "MCP_Pattern",
+    Name has_any (model_infra),                                        "ModelDownloadInfra",
+    Name has_any (cloud_mcp),                                          "SelfHostedMCP_Cloud",
+    Name has "api." and Name has_any (ai_domains),                    "AI_API_Subdomain",
+    Name has "ws." or Name has "stream.",                              "StreamingSubdomain",
+    Name has "auth." or Name has "login." or Name has "accounts.",    "AuthSubdomain",
+    "AIFrameworkDomain"
+)
+| summarize
+    QueryCount  = count(),
+    Computers   = make_set(Computer),
+    ClientIPs   = make_set(ClientIP),
+    FirstSeen   = min(TimeGenerated),
+    LastSeen    = max(TimeGenerated)
+    by Name, SignalType
+| order by QueryCount desc
