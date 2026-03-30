@@ -1,14 +1,44 @@
+// === Argus AI Domain Detection — last updated 2026-03-28 ===
 let ai_domains = dynamic([
-    "openai.com","anthropic.com","cohere.ai","mistral.ai","huggingface.co",
-    "together.ai","groq.com","perplexity.ai","stability.ai","replicate.com",
-    "langchain.com","pinecone.io","weaviate.io","qdrant.io","chroma.db",
-    "ollama.ai","lmstudio.ai","cursor.sh","codeium.com","tabnine.com",
-    "anyscale.com","fireworks.ai","deepinfra.com"
+    // Major AI Chatbots & Assistants
+    "openai.com","chatgpt.com","anthropic.com","claude.ai","cohere.ai",
+    "mistral.ai","deepseek.com","grok.com","x.ai","perplexity.ai","pplx.ai",
+    // Chinese AI Providers
+    "qwen.ai","dashscope.aliyuncs.com","dashscope-intl.aliyuncs.com","modelscope.cn",
+    // Model Hubs & Inference Platforms
+    "huggingface.co","hf.co","together.ai","groq.com","stability.ai","replicate.com",
+    "anyscale.com","fireworks.ai","deepinfra.com","openrouter.ai",
+    // Frameworks & Vector DBs
+    "langchain.com","pinecone.io","weaviate.io","qdrant.io","trychroma.com",
+    // Local Inference
+    "ollama.com","ollama.ai","lmstudio.ai",
+    // AI Coding Assistants
+    "cursor.com","cursor.sh","codeium.com","windsurf.com","tabnine.com",
+    "cline.bot","continue.dev","aider.chat","sourcegraph.com","cody.dev",
+    "augmentcode.com","qodo.ai","codium.ai",
+    // Autonomous Coding Agents
+    "devin.ai","cognition.ai",
+    // AI App Builders
+    "replit.com","lovable.dev","lovable.app","bolt.new","v0.dev","v0.app",
+    // MCP Ecosystem
+    "smithery.ai","composio.dev","glama.ai","mcp.run","modelcontextprotocol.io",
+    // Agent Protocols
+    "a2a-protocol.org",
+    // Google AI
+    "codeassist.google","aistudio.google.com","gemini.google.com",
+    "generativelanguage.googleapis.com","cloudaicompanion.googleapis.com",
+    // Microsoft AI
+    "copilot.microsoft.com",
+    // AWS AI
+    "q.us-east-1.amazonaws.com","codewhisperer.us-east-1.amazonaws.com",
+    // AI Productivity
+    "jasper.ai","copy.ai","runwayml.com","midjourney.com","litellm.ai"
 ]);
-let mcp_patterns     = dynamic(["mcp.", "mcp-"]);
-let api_patterns     = dynamic(["api.", "ws.", "stream.", "auth.", "login.", "accounts."]);
-let model_infra      = dynamic(["models.", "weights.", "registry.", "artifacts.", "download."]);
-let cloud_mcp        = dynamic(["azurewebsites.net","ngrok.io","run.app","lambda-url","execute-api"]);
+let mcp_patterns     = dynamic(["mcp.", "mcp-", "modelcontextprotocol", "mcpb."]);
+let api_patterns     = dynamic(["api.", "ws.", "stream.", "auth.", "login.", "accounts.", "platform.", "console.", "chat.", "code."]);
+let model_infra      = dynamic(["models.", "weights.", "registry.", "artifacts.", "download.", "cdn-lfs.", "releases."]);
+let cloud_mcp        = dynamic(["azurewebsites.net","ngrok.io","ngrok-free.app","run.app","lambda-url","execute-api","railway.app","fly.dev","render.com","vercel.app","workers.dev","deno.dev"]);
+let a2a_patterns     = dynamic(["agent-card.json","a2a-protocol"]);
 DnsEvents
 | where Name endswith ".ai"
     or Name endswith ".ml"
@@ -17,13 +47,16 @@ DnsEvents
     or Name has_any (ai_domains)
     or (Name has_any (api_patterns) and Name has_any (ai_domains))
     or Name has_any (cloud_mcp)
+    or Name has_any (a2a_patterns)
 | extend SignalType = case(
     Name endswith ".ai" or Name endswith ".ml",                        "AI_TLD",
-    Name has "mcp." or Name has "mcp-",                               "MCP_Pattern",
+    Name has "mcp." or Name has "mcp-" or Name has "modelcontextprotocol", "MCP_Pattern",
+    Name has_any (a2a_patterns),                                       "A2A_AgentProtocol",
     Name has_any (model_infra),                                        "ModelDownloadInfra",
     Name has_any (cloud_mcp),                                          "SelfHostedMCP_Cloud",
     Name has "api." and Name has_any (ai_domains),                    "AI_API_Subdomain",
-    Name has "ws." or Name has "stream.",                              "StreamingSubdomain",
+    Name has "platform." or Name has "console." or Name has "code.",  "AI_PlatformAccess",
+    Name has "ws." or Name has "stream." or Name has "chat.",         "StreamingSubdomain",
     Name has "auth." or Name has "login." or Name has "accounts.",    "AuthSubdomain",
     "AIFrameworkDomain"
 )

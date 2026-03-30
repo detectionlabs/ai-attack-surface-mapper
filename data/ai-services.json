@@ -1,0 +1,819 @@
+{
+  "_metadata": {
+    "description": "Argus AI Service Detection Catalog — domains, processes, ports, config paths, and packages for known AI services",
+    "last_updated": "2026-03-28",
+    "version": "1.0.0"
+  },
+  "services": {
+    "chatbots_and_assistants": [
+      {
+        "name": "ChatGPT",
+        "vendor": "OpenAI",
+        "domains": [
+          "chat.openai.com",
+          "chatgpt.com",
+          "api.openai.com",
+          "platform.openai.com",
+          "auth.openai.com",
+          "auth0.openai.com",
+          "cdn.openai.com",
+          "files.oaiusercontent.com"
+        ],
+        "desktop_processes": ["ChatGPT.exe", "ChatGPT"],
+        "packages": ["openai"],
+        "oauth_app_names": ["ChatGPT", "OpenAI", "Azure OpenAI"],
+        "notes": "MCP support in developer mode since late 2025. ChatGPT desktop app available on Windows and macOS."
+      },
+      {
+        "name": "Claude",
+        "vendor": "Anthropic",
+        "domains": [
+          "claude.ai",
+          "api.anthropic.com",
+          "anthropic.com",
+          "console.anthropic.com",
+          "platform.claude.com",
+          "code.claude.com",
+          "support.claude.com",
+          "statsig.anthropic.com"
+        ],
+        "desktop_processes": ["Claude.exe", "Claude"],
+        "packages": ["anthropic"],
+        "oauth_app_names": ["Claude", "Anthropic"],
+        "config_paths": {
+          "claude_desktop_macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+          "claude_desktop_windows": "%APPDATA%\\Claude\\claude_desktop_config.json"
+        },
+        "notes": "MCP natively supported. Desktop extensions use .mcpb file format (formerly .dxt). Over 1000 community MCP servers."
+      },
+      {
+        "name": "Claude Code",
+        "vendor": "Anthropic",
+        "domains": [
+          "api.anthropic.com",
+          "code.claude.com",
+          "statsig.anthropic.com"
+        ],
+        "cli_processes": ["claude", "claude-code"],
+        "packages": ["@anthropic-ai/claude-code"],
+        "config_paths": {
+          "global_settings": "~/.claude/settings.json",
+          "global_mcp": "~/.claude.json",
+          "project_mcp": ".mcp.json",
+          "project_settings": ".claude/settings.json"
+        },
+        "notes": "CLI coding agent. Voice mode via /voice. 1M token context with Opus 4.6. Scheduled cloud tasks. Native installer preferred over npm."
+      },
+      {
+        "name": "Claude Cowork",
+        "vendor": "Anthropic",
+        "domains": [
+          "claude.ai",
+          "api.anthropic.com"
+        ],
+        "desktop_processes": ["Claude.exe", "Claude"],
+        "notes": "Launched January 2026 as research preview. Desktop agent with file system access and computer use. Runs on macOS."
+      },
+      {
+        "name": "Grok",
+        "vendor": "xAI",
+        "domains": [
+          "grok.com",
+          "api.x.ai",
+          "console.x.ai",
+          "x.ai",
+          "docs.x.ai"
+        ],
+        "packages": [],
+        "oauth_app_names": ["Grok", "xAI"],
+        "notes": "Grok 4.20 flagship model. API compatible with OpenAI and Anthropic SDKs. Available via grok.com, mobile apps, and X.com."
+      },
+      {
+        "name": "Perplexity AI",
+        "vendor": "Perplexity",
+        "domains": [
+          "perplexity.ai",
+          "www.perplexity.ai",
+          "api.perplexity.ai",
+          "pplx.ai"
+        ],
+        "desktop_processes": ["Perplexity.exe", "Perplexity"],
+        "oauth_app_names": ["Perplexity"],
+        "notes": "Comet browser launched 2025 (Chromium-based). Enterprise MDM deployment available."
+      },
+      {
+        "name": "Perplexity Comet Browser",
+        "vendor": "Perplexity",
+        "domains": [
+          "perplexity.ai",
+          "www.perplexity.ai"
+        ],
+        "desktop_processes": ["Comet.exe", "Comet", "Comet Browser"],
+        "notes": "AI-native Chromium browser. Available on Windows, macOS, Android, iOS. Enterprise version with MDM silent deployment and domain-level agent controls."
+      },
+      {
+        "name": "DeepSeek",
+        "vendor": "DeepSeek",
+        "domains": [
+          "deepseek.com",
+          "www.deepseek.com",
+          "platform.deepseek.com",
+          "api-docs.deepseek.com",
+          "api.deepseek.com",
+          "chat.deepseek.com"
+        ],
+        "desktop_processes": ["DeepSeek.exe", "DeepSeek"],
+        "packages": [],
+        "notes": "OpenAI-compatible API. Models: DeepSeek-V3.2, DeepSeek-R1. Desktop app via Electron wrapper or PWA. Third-party Mac apps via Fello AI."
+      },
+      {
+        "name": "Qwen (Tongyi Qianwen)",
+        "vendor": "Alibaba Cloud",
+        "domains": [
+          "qwen.ai",
+          "dashscope.aliyuncs.com",
+          "dashscope-intl.aliyuncs.com",
+          "dashscope-us.aliyuncs.com",
+          "alibabacloud.com",
+          "tongyi.aliyun.com",
+          "modelscope.cn"
+        ],
+        "packages": ["dashscope"],
+        "oauth_app_names": ["Qwen", "Alibaba Cloud", "Tongyi Qianwen"],
+        "notes": "Qwen3.5 released Feb 2026 (397B params, 201 languages). Available via Alibaba Cloud Model Studio. Regional API endpoints in US, China, Singapore."
+      },
+      {
+        "name": "Microsoft Copilot",
+        "vendor": "Microsoft",
+        "domains": [
+          "copilot.microsoft.com",
+          "copilot.cloud.microsoft",
+          "bing.com",
+          "www.bing.com",
+          "copilot.microsoft.com"
+        ],
+        "desktop_processes": ["Microsoft.Copilot.exe"],
+        "oauth_app_names": ["Microsoft Copilot", "Microsoft 365 Copilot"],
+        "notes": "Wave 2 update with Copilot Pages and Copilot Agents. Embedded in Excel, PowerPoint, Teams."
+      }
+    ],
+    "coding_assistants": [
+      {
+        "name": "GitHub Copilot",
+        "vendor": "GitHub / Microsoft",
+        "domains": [
+          "copilot.github.com",
+          "api.github.com",
+          "github.com",
+          "copilot-proxy.githubusercontent.com",
+          "default.exp-tas.com",
+          "copilot.githubassets.com"
+        ],
+        "desktop_processes": [],
+        "packages": ["github-copilot"],
+        "oauth_app_names": ["GitHub Copilot", "GitHub Copilot Chat"],
+        "notes": "Agent mode with MCP support in VS Code (GA 2026). Coding agent for autonomous tasks. JetBrains agentic mode GA March 2026."
+      },
+      {
+        "name": "Cursor",
+        "vendor": "Anysphere",
+        "domains": [
+          "cursor.com",
+          "cursor.sh",
+          "api.cursor.com",
+          "api2.cursor.sh",
+          "marketplace.cursor.com",
+          "downloads.cursor.com"
+        ],
+        "desktop_processes": ["Cursor.exe", "Cursor", "cursorsandbox.exe"],
+        "config_paths": {
+          "mcp_config": "~/.cursor/mcp.json"
+        },
+        "notes": "MCP Apps marketplace launched Feb 2026. Cloud Agents with Computer Use. Bugbot Autofix. Automations triggered by Slack, Linear, GitHub, PagerDuty. Supports stdio, SSE, and Streamable HTTP MCP transports."
+      },
+      {
+        "name": "Windsurf",
+        "vendor": "Cognition AI (acquired from Codeium Dec 2025)",
+        "domains": [
+          "windsurf.com",
+          "codeium.com",
+          "api.codeium.com",
+          "server.codeium.com",
+          "downloads.codeium.com"
+        ],
+        "desktop_processes": ["Windsurf.exe", "Windsurf", "windsurf"],
+        "config_paths": {
+          "mcp_config_macos_linux": "~/.codeium/windsurf/mcp_config.json",
+          "mcp_config_windows": "%USERPROFILE%\\.codeium\\windsurf\\mcp_config.json"
+        },
+        "packages": [],
+        "notes": "Acquired by Cognition AI for ~$250M (Dec 2025). $82M ARR. GPT-5.4, Gemini 3.1 Pro, Claude Sonnet 4.6 available. Auto-Generate Memories feature. JetBrains plugin available."
+      },
+      {
+        "name": "Cline",
+        "vendor": "Cline Bot Inc.",
+        "domains": [
+          "cline.bot",
+          "app.cline.bot",
+          "docs.cline.bot"
+        ],
+        "packages": ["saoudrizwan.claude-dev"],
+        "notes": "VS Code extension (marketplace ID: saoudrizwan.claude-dev). 5M+ developers. Autonomous coding agent. Supports OpenRouter, Anthropic, OpenAI, Gemini, Bedrock, Azure, Vertex, Ollama, LM Studio."
+      },
+      {
+        "name": "Continue",
+        "vendor": "Continue Dev",
+        "domains": [
+          "continue.dev",
+          "docs.continue.dev"
+        ],
+        "packages": ["Continue.continue"],
+        "config_paths": {
+          "config_json": "~/.continue/config.json",
+          "config_yaml": "~/.continue/config.yaml"
+        },
+        "notes": "Open-source AI coding assistant. VS Code and JetBrains extensions. Supports local models via Ollama."
+      },
+      {
+        "name": "Aider",
+        "vendor": "Aider AI",
+        "domains": [
+          "aider.chat"
+        ],
+        "cli_processes": ["aider"],
+        "packages": ["aider-chat"],
+        "config_paths": {
+          "global_config": "~/.aider.conf.yml",
+          "project_config": ".aider.conf.yml",
+          "env_file": ".env"
+        },
+        "notes": "CLI-based AI pair programmer. Installs via pip (aider-chat). Auto-commits to git. Supports GPT-4o, Claude, local models."
+      },
+      {
+        "name": "Tabnine",
+        "vendor": "Tabnine",
+        "domains": [
+          "tabnine.com",
+          "api.tabnine.com",
+          "update.tabnine.com"
+        ],
+        "desktop_processes": ["tabnine", "TabNine.exe"],
+        "packages": ["tabnine"],
+        "oauth_app_names": ["Tabnine"],
+        "notes": "IDE extension for code completion. Enterprise version with private model deployment."
+      },
+      {
+        "name": "Sourcegraph Cody",
+        "vendor": "Sourcegraph",
+        "domains": [
+          "sourcegraph.com",
+          "cody.dev"
+        ],
+        "packages": ["sourcegraph.cody-ai"],
+        "oauth_app_names": ["Sourcegraph", "Cody"],
+        "notes": "AI coding assistant with deep codebase search. VS Code extension. Connects to entire codebase including remote repos."
+      },
+      {
+        "name": "Amazon Q Developer",
+        "vendor": "Amazon Web Services",
+        "domains": [
+          "q.us-east-1.amazonaws.com",
+          "codewhisperer.us-east-1.amazonaws.com",
+          "aws.amazon.com",
+          "q.console.aws.amazon.com"
+        ],
+        "packages": ["amazon-q-developer"],
+        "oauth_app_names": ["Amazon Q", "Amazon Q Developer", "AWS CodeWhisperer"],
+        "notes": "Full-lifecycle AI coding assistant with 5 specialized agents. Supports VS Code, JetBrains, Visual Studio, Eclipse. Uses IAM for access control."
+      },
+      {
+        "name": "Gemini Code Assist",
+        "vendor": "Google",
+        "domains": [
+          "codeassist.google",
+          "gemini.google.com",
+          "aistudio.google.com",
+          "generativelanguage.googleapis.com",
+          "cloudaicompanion.googleapis.com"
+        ],
+        "packages": ["google-generativeai", "@google/generative-ai"],
+        "oauth_app_names": ["Gemini Code Assist", "Google AI Studio"],
+        "notes": "Agent mode in VS Code and IntelliJ. Jules agent for async coding tasks (cloud VM, Gemini 2.5 Pro). Launched 2025."
+      },
+      {
+        "name": "Augment Code",
+        "vendor": "Augment",
+        "domains": [
+          "augmentcode.com",
+          "www.augmentcode.com",
+          "docs.augmentcode.com",
+          "api.augmentcode.com"
+        ],
+        "packages": ["augment.vscode-augment"],
+        "notes": "IDE extension for VS Code and JetBrains. Intent workspace for multi-agent orchestration. Context engine for 100M+ line codebases."
+      },
+      {
+        "name": "Qodo (formerly Codium)",
+        "vendor": "Qodo",
+        "domains": [
+          "qodo.ai",
+          "www.qodo.ai",
+          "codium.ai",
+          "app.codium.ai"
+        ],
+        "packages": ["Codium.codium"],
+        "oauth_app_names": ["Qodo", "Codium"],
+        "notes": "Qodo 2.0 released Feb 2026 with multi-agent architecture. VS Code extension for AI code review and test generation. MCP tool support."
+      },
+      {
+        "name": "OpenAI Codex",
+        "vendor": "OpenAI",
+        "domains": [
+          "openai.com",
+          "chatgpt.com",
+          "api.openai.com"
+        ],
+        "desktop_processes": ["Codex.exe", "Codex"],
+        "packages": ["@openai/codex"],
+        "notes": "Cloud-based coding agent (codex-1 model, optimized o3). Runs in isolated containers. No internet during task execution. Desktop app on Windows (March 2026) and macOS. Also available as CLI (openai/codex on GitHub)."
+      },
+      {
+        "name": "Devin",
+        "vendor": "Cognition Labs",
+        "domains": [
+          "devin.ai",
+          "app.devin.ai",
+          "cognition.ai",
+          "docs.devin.ai"
+        ],
+        "oauth_app_names": ["Devin"],
+        "notes": "Autonomous AI software engineer. Devin 2.0 with IDE experience. API for CI/CD integration. Sandboxed dev environment with editor, terminal, browser."
+      }
+    ],
+    "ai_app_builders": [
+      {
+        "name": "Replit",
+        "vendor": "Replit",
+        "domains": [
+          "replit.com",
+          "repl.co",
+          "repl.it",
+          "replit.dev",
+          "id.replit.com"
+        ],
+        "desktop_processes": ["Replit.exe", "Replit"],
+        "oauth_app_names": ["Replit"],
+        "notes": "Agent 4 for autonomous app building. Domain purchasing for members. Deploys to .replit.app subdomains."
+      },
+      {
+        "name": "Lovable",
+        "vendor": "Lovable",
+        "domains": [
+          "lovable.dev",
+          "app.lovable.dev",
+          "lovable.app"
+        ],
+        "oauth_app_names": ["Lovable"],
+        "notes": "$330M Series B at $6.6B valuation (Dec 2025). Full-stack app generation from natural language. $200M ARR."
+      },
+      {
+        "name": "Bolt.new",
+        "vendor": "StackBlitz",
+        "domains": [
+          "bolt.new",
+          "stackblitz.com"
+        ],
+        "notes": "Browser-based full-stack dev via WebContainer. $40M ARR in 6 months. No local setup needed."
+      },
+      {
+        "name": "v0",
+        "vendor": "Vercel",
+        "domains": [
+          "v0.dev",
+          "v0.app"
+        ],
+        "notes": "Rebranded from v0.dev to v0.app (Jan 2026). React/Tailwind component generation. Figma-to-code. Frontend only."
+      }
+    ],
+    "local_inference": [
+      {
+        "name": "Ollama",
+        "vendor": "Ollama",
+        "domains": [
+          "ollama.com",
+          "ollama.ai",
+          "registry.ollama.ai"
+        ],
+        "cli_processes": ["ollama", "ollama.exe"],
+        "default_ports": [11434],
+        "config_paths": {
+          "models_dir_macos": "~/.ollama/models",
+          "models_dir_linux": "~/.ollama/models",
+          "models_dir_windows": "%USERPROFILE%\\.ollama\\models"
+        },
+        "env_vars": ["OLLAMA_HOST", "OLLAMA_MODELS", "OLLAMA_ORIGINS"],
+        "packages": ["ollama"],
+        "api_endpoints": ["/api/generate", "/api/chat", "/api/embeddings", "/api/metrics", "/v1/chat/completions"],
+        "notes": "v0.18.3 (March 2026). REST API on port 11434. Native Windows ARM64 build. Web search plugin. /api/metrics endpoint new in 2026. 100+ models supported. No authentication by default."
+      },
+      {
+        "name": "LM Studio",
+        "vendor": "LM Studio",
+        "domains": [
+          "lmstudio.ai",
+          "releases.lmstudio.ai"
+        ],
+        "desktop_processes": ["LM Studio.exe", "LM Studio", "lm_studio.exe", "lm-studio", "llmster"],
+        "default_ports": [1234],
+        "config_paths": {
+          "models_dir": "~/.cache/lm-studio/models"
+        },
+        "packages": [],
+        "notes": "v0.4.8 (March 2026). llmster is the new headless daemon process. LM Link for remote instances with E2E encryption via Tailscale. OpenAI-compatible API on port 1234."
+      },
+      {
+        "name": "llama.cpp / llama-server",
+        "vendor": "ggerganov",
+        "domains": [
+          "github.com/ggerganov/llama.cpp"
+        ],
+        "cli_processes": ["llama-server", "llama-cli", "llama.cpp", "llamafile", "llamafile.exe"],
+        "default_ports": [8080],
+        "notes": "C++ LLM inference. llamafile bundles model + runtime in single executable."
+      },
+      {
+        "name": "KoboldCpp",
+        "vendor": "KoboldAI",
+        "domains": [],
+        "cli_processes": ["koboldcpp", "koboldcpp.exe"],
+        "default_ports": [5001],
+        "notes": "Local LLM inference with web UI."
+      },
+      {
+        "name": "text-generation-webui (oobabooga)",
+        "vendor": "oobabooga",
+        "domains": [],
+        "cli_processes": ["text-generation-webui"],
+        "default_ports": [7860, 5000, 5001],
+        "notes": "Gradio-based web UI for local LLM inference."
+      },
+      {
+        "name": "vLLM",
+        "vendor": "vLLM Project",
+        "domains": [],
+        "cli_processes": ["vllm", "python -m vllm.entrypoints.openai.api_server"],
+        "default_ports": [8000],
+        "packages": ["vllm"],
+        "notes": "High-throughput LLM serving engine. OpenAI-compatible API."
+      },
+      {
+        "name": "Open WebUI",
+        "vendor": "Open WebUI",
+        "domains": [
+          "openwebui.com"
+        ],
+        "desktop_processes": [],
+        "default_ports": [3000, 8080],
+        "packages": ["open-webui"],
+        "notes": "Web UI frontend for Ollama and other local LLM servers."
+      }
+    ],
+    "api_gateways_and_routers": [
+      {
+        "name": "OpenRouter",
+        "vendor": "OpenRouter",
+        "domains": [
+          "openrouter.ai",
+          "api.openrouter.ai"
+        ],
+        "packages": [],
+        "notes": "Unified API gateway for 300+ models from 60+ providers. OpenAI-compatible API. Automatic failover and routing."
+      },
+      {
+        "name": "LiteLLM",
+        "vendor": "BerriAI",
+        "domains": [
+          "litellm.ai"
+        ],
+        "cli_processes": ["litellm"],
+        "default_ports": [4000],
+        "packages": ["litellm"],
+        "notes": "LLM proxy server. Unified API for 100+ LLM providers."
+      },
+      {
+        "name": "Together AI",
+        "vendor": "Together",
+        "domains": [
+          "together.ai",
+          "api.together.xyz",
+          "together.xyz"
+        ],
+        "packages": ["together"],
+        "notes": "Cloud inference platform for open-source models."
+      },
+      {
+        "name": "Groq",
+        "vendor": "Groq",
+        "domains": [
+          "groq.com",
+          "api.groq.com",
+          "console.groq.com"
+        ],
+        "packages": ["groq"],
+        "notes": "Ultra-fast LPU inference. OpenAI-compatible API."
+      },
+      {
+        "name": "Fireworks AI",
+        "vendor": "Fireworks",
+        "domains": [
+          "fireworks.ai",
+          "api.fireworks.ai",
+          "app.fireworks.ai"
+        ],
+        "packages": ["fireworks-ai"],
+        "notes": "Fast inference platform. Serverless and dedicated deployments."
+      },
+      {
+        "name": "DeepInfra",
+        "vendor": "DeepInfra",
+        "domains": [
+          "deepinfra.com",
+          "api.deepinfra.com"
+        ],
+        "packages": [],
+        "notes": "Serverless inference for open-source models."
+      },
+      {
+        "name": "Anyscale",
+        "vendor": "Anyscale",
+        "domains": [
+          "anyscale.com",
+          "api.anyscale.com",
+          "endpoints.anyscale.com"
+        ],
+        "packages": [],
+        "notes": "Enterprise AI compute platform built on Ray."
+      }
+    ],
+    "mcp_platforms": [
+      {
+        "name": "Smithery",
+        "vendor": "Smithery AI",
+        "domains": [
+          "smithery.ai",
+          "api.smithery.ai",
+          "registry.smithery.ai"
+        ],
+        "cli_processes": ["smithery"],
+        "packages": ["@smithery/cli"],
+        "notes": "MCP server registry with 7,300+ tools. Local and hosted server support. CLI for install/manage. 6,000+ servers listed."
+      },
+      {
+        "name": "Composio",
+        "vendor": "Composio",
+        "domains": [
+          "composio.dev",
+          "mcp.composio.dev",
+          "app.composio.dev",
+          "api.composio.dev"
+        ],
+        "packages": ["composio", "composio-core"],
+        "notes": "Managed MCP hosting with 1,000+ pre-built tools. SOC2/ISO/HIPAA certified. API key enforcement default since March 2026. 99.9% SLA."
+      },
+      {
+        "name": "Glama",
+        "vendor": "Glama",
+        "domains": [
+          "glama.ai",
+          "api.glama.ai"
+        ],
+        "packages": ["@glama/mcp-client"],
+        "notes": "Largest MCP directory with 17,200+ servers. Hosting + AI chat interface + API gateway. Trusted by 50,000+ businesses."
+      },
+      {
+        "name": "MCP.run",
+        "vendor": "MCP Run",
+        "domains": [
+          "mcp.run",
+          "docs.mcp.run"
+        ],
+        "notes": "MCP hosting and client platform."
+      },
+      {
+        "name": "Official MCP Registry",
+        "vendor": "Anthropic / MCP Project",
+        "domains": [
+          "registry.modelcontextprotocol.io",
+          "modelcontextprotocol.io"
+        ],
+        "packages": ["@modelcontextprotocol/sdk", "@modelcontextprotocol/server-filesystem", "@modelcontextprotocol/server-github"],
+        "notes": "Official MCP protocol registry. MCP spec maintained at modelcontextprotocol.io."
+      }
+    ],
+    "agent_frameworks": [
+      {
+        "name": "OpenAI Agents SDK",
+        "vendor": "OpenAI",
+        "domains": [
+          "openai.github.io",
+          "api.openai.com"
+        ],
+        "packages": ["openai-agents", "openai-agents-python"],
+        "notes": "v0.12.5 with built-in MCP server tool integration. Supports tool use, handoffs, guardrails, tracing. Provider-agnostic."
+      },
+      {
+        "name": "LangChain",
+        "vendor": "LangChain",
+        "domains": [
+          "langchain.com",
+          "smith.langchain.com",
+          "api.smith.langchain.com"
+        ],
+        "packages": ["langchain", "langchain-core", "langchain-community", "langsmith"],
+        "notes": "LLM application framework. LangSmith for observability."
+      },
+      {
+        "name": "LlamaIndex",
+        "vendor": "LlamaIndex",
+        "domains": [
+          "llamaindex.ai",
+          "cloud.llamaindex.ai"
+        ],
+        "packages": ["llama-index", "llamaindex"],
+        "notes": "Data framework for LLM applications. RAG-focused."
+      },
+      {
+        "name": "CrewAI",
+        "vendor": "CrewAI",
+        "domains": [
+          "crewai.com",
+          "app.crewai.com"
+        ],
+        "packages": ["crewai"],
+        "notes": "Multi-agent orchestration framework."
+      },
+      {
+        "name": "AutoGen",
+        "vendor": "Microsoft",
+        "domains": [
+          "microsoft.github.io"
+        ],
+        "packages": ["autogen", "pyautogen", "autogen-agentchat"],
+        "notes": "Multi-agent conversation framework by Microsoft Research."
+      }
+    ],
+    "agent_protocols": [
+      {
+        "name": "Model Context Protocol (MCP)",
+        "vendor": "Anthropic (open standard)",
+        "domains": [
+          "modelcontextprotocol.io",
+          "registry.modelcontextprotocol.io"
+        ],
+        "notes": "Open protocol for tool/context sharing with LLMs. v1.27 as of 2026. Supported by Claude, ChatGPT, Cursor, Windsurf, VS Code Copilot, OpenAI Agents SDK."
+      },
+      {
+        "name": "Agent2Agent (A2A)",
+        "vendor": "Google (donated to Linux Foundation)",
+        "domains": [
+          "a2a-protocol.org",
+          "github.com/a2aproject/A2A"
+        ],
+        "discovery_pattern": "/.well-known/agent-card.json",
+        "notes": "v0.3 with gRPC support. Agent Cards published at well-known URLs. Focuses on inter-agent discovery and communication. Complements MCP."
+      }
+    ],
+    "vector_databases": [
+      {
+        "name": "Pinecone",
+        "vendor": "Pinecone",
+        "domains": ["pinecone.io", "api.pinecone.io", "controller.*.pinecone.io"],
+        "packages": ["pinecone", "pinecone-client"],
+        "notes": "Managed vector database."
+      },
+      {
+        "name": "Weaviate",
+        "vendor": "Weaviate",
+        "domains": ["weaviate.io", "weaviate.cloud"],
+        "packages": ["weaviate-client"],
+        "default_ports": [8080],
+        "notes": "Open-source vector database."
+      },
+      {
+        "name": "Qdrant",
+        "vendor": "Qdrant",
+        "domains": ["qdrant.io", "cloud.qdrant.io"],
+        "packages": ["qdrant-client"],
+        "default_ports": [6333, 6334],
+        "notes": "Open-source vector search engine."
+      },
+      {
+        "name": "ChromaDB",
+        "vendor": "Chroma",
+        "domains": ["trychroma.com"],
+        "packages": ["chromadb"],
+        "default_ports": [8000],
+        "notes": "Open-source embedding database."
+      }
+    ],
+    "model_hubs": [
+      {
+        "name": "Hugging Face",
+        "vendor": "Hugging Face",
+        "domains": [
+          "huggingface.co",
+          "hf.co",
+          "api-inference.huggingface.co",
+          "cdn-lfs.huggingface.co",
+          "huggingface.co/api"
+        ],
+        "config_paths": {
+          "cache_dir": "~/.cache/huggingface"
+        },
+        "packages": ["transformers", "huggingface-hub", "datasets", "tokenizers", "diffusers", "accelerate"],
+        "notes": "Largest model hub. Model downloads via Git LFS. Token stored in ~/.cache/huggingface/token."
+      },
+      {
+        "name": "ModelScope",
+        "vendor": "Alibaba",
+        "domains": [
+          "modelscope.cn",
+          "www.modelscope.cn"
+        ],
+        "packages": ["modelscope"],
+        "notes": "Chinese model hub. Alternative to Hugging Face for Chinese models."
+      },
+      {
+        "name": "Replicate",
+        "vendor": "Replicate",
+        "domains": [
+          "replicate.com",
+          "api.replicate.com"
+        ],
+        "packages": ["replicate"],
+        "notes": "Run ML models in the cloud via API."
+      }
+    ],
+    "image_and_media_ai": [
+      {
+        "name": "Midjourney",
+        "vendor": "Midjourney",
+        "domains": ["midjourney.com", "www.midjourney.com", "cdn.midjourney.com"],
+        "oauth_app_names": ["Midjourney"],
+        "notes": "AI image generation. Accessed via Discord bot and web interface."
+      },
+      {
+        "name": "Stability AI",
+        "vendor": "Stability AI",
+        "domains": ["stability.ai", "api.stability.ai"],
+        "packages": ["stability-sdk"],
+        "notes": "Stable Diffusion models. API and open-source releases."
+      },
+      {
+        "name": "Runway",
+        "vendor": "Runway",
+        "domains": ["runwayml.com", "app.runwayml.com", "api.runwayml.com"],
+        "oauth_app_names": ["Runway"],
+        "notes": "AI video generation and editing."
+      }
+    ],
+    "productivity_ai": [
+      {
+        "name": "Notion AI",
+        "vendor": "Notion",
+        "domains": ["notion.so", "api.notion.com", "www.notion.so"],
+        "oauth_app_names": ["Notion AI", "Notion"],
+        "notes": "AI writing and knowledge management integrated into Notion."
+      },
+      {
+        "name": "Grammarly",
+        "vendor": "Grammarly",
+        "domains": ["grammarly.com", "app.grammarly.com", "api.grammarly.com"],
+        "desktop_processes": ["Grammarly.exe", "Grammarly Desktop"],
+        "oauth_app_names": ["Grammarly"],
+        "notes": "AI writing assistant with browser extension and desktop app."
+      },
+      {
+        "name": "Jasper",
+        "vendor": "Jasper AI",
+        "domains": ["jasper.ai", "app.jasper.ai", "api.jasper.ai"],
+        "oauth_app_names": ["Jasper"],
+        "notes": "AI content creation platform."
+      },
+      {
+        "name": "Copy.ai",
+        "vendor": "Copy.ai",
+        "domains": ["copy.ai", "app.copy.ai", "api.copy.ai"],
+        "oauth_app_names": ["Copy.ai"],
+        "notes": "AI copywriting and workflow automation."
+      },
+      {
+        "name": "Zapier AI / Zapier Agents",
+        "vendor": "Zapier",
+        "domains": ["zapier.com", "actions.zapier.com", "nla.zapier.com"],
+        "oauth_app_names": ["Zapier"],
+        "notes": "AI-powered automation agents. MCP server support for Windsurf/Cursor/Claude. 8,000+ app integrations."
+      }
+    ]
+  }
+}
